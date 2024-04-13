@@ -33,9 +33,8 @@ public:
             double dist = frontier.top().first;
             string state = frontier.top().second;
             frontier.pop();
-            if(inFrontier.count(state)) continue; // we have opened this node already
+            //if(inFrontier.count(state)) continue; // we have opened this node already
             inFrontier.insert(state);
-            cout << " at state " << state << endl;
             if(state == "123456780"){
                 done = true;
                 break;
@@ -70,7 +69,6 @@ public:
                 cameFrom[d] = state;
             }
 
-
         }
 
 
@@ -79,10 +77,17 @@ public:
     }
 
     void printStack(){
+        cout << "-------------SOLUTION----------" << endl;
         string pos = "123456780";
-        while(cameFrom[pos] != "" && pos != "123456780"){
-            cout << " at " << pos << endl;
-            cout << " came from " << cameFrom[pos] << endl << endl;
+        stack<string> st;
+        while(cameFrom[pos] != ""){
+            st.push(pos);
+            pos = cameFrom[pos];
+        }
+        while(st.size()){
+            Board out(st.top());
+            cout << out;
+            st.pop();
         }
     }
 

@@ -2,7 +2,7 @@
 #include"Board.cpp"
 #include"solver.cpp"
 int main(int argc, char** argv){
-    Board start("123456708");
+    Board start("102463758");
     cout << start;
     int rq = 0;
     while(rq != 9){
