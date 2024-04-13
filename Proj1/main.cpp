@@ -1,7 +1,8 @@
 // Compile using g++ main.cpp, run using ./a.out
 #include"Board.cpp"
+#include"solver.cpp"
 int main(int argc, char** argv){
-    Board start("354210896");
+    Board start("123456708");
     cout << start;
     int rq = 0;
     while(rq != 9){
@@ -27,6 +28,11 @@ int main(int argc, char** argv){
         if(rq == 9) break;
         cout << start;
     }
+
+
+    Solver question( "uniform" , start.getString());
+
+    question.printStack();
 
     return 0;
 }
