@@ -29,9 +29,29 @@ int main(int argc, char** argv){
         cout << start;
     }
 
+    cout << "Welcome to 8 puzzle solver.\n";
+    cout << "Enter your puzzle, use a zero to represent the blank. Enter as one string:\n";
+    string initial_state;
+    cin >> initial_state;
 
-    Solver question( "uniform" , start.getString());
+    Board start(initial_state);
 
+    cout << "Choose the algorithm:\n";
+    cout << "1 - Uniform Cost Search\n";
+    cout << "2 - A* with Misplaced Tile heuristic\n";
+    cout << "3 - A* with Euclidean distance heuristic\n";
+    int choice;
+    cin >> choice;
+
+    string algorithm = "uniform"; // default
+    if (choice == 2) {
+        algorithm = "misplaced";
+    } else if (choice == 3) {
+        algorithm = "euclidean";
+    }
+
+    Solver question(algorithm, start.getString());
+    
     question.printStack();
 
     return 0;
