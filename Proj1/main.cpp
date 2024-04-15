@@ -34,7 +34,7 @@ int main(int argc, char** argv){
     string initial_state;
     cin >> initial_state;
 
-    Board start(initial_state);
+    start = Board(initial_state);
 
     cout << "Choose the algorithm:\n";
     cout << "1 - Uniform Cost Search\n";

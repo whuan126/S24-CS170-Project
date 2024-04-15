@@ -6,7 +6,7 @@
 #include<unordered_map>
 #include<stack>
 #include<unordered_set>
-
+#include<cmath>
 using namespace std;
 class Solver{
 public:
@@ -21,9 +21,14 @@ public:
         priority_queue<pair<double, string>, vector<pair<double, string>>, decltype( priorityLow )>  frontier(priorityLow); // the top node is {priority, state}. Low priority first
 
 
-        function<double(string, double)> heuristic =            // double heuristic (string state, prior sum);
-            [](string state, double prior){return prior + 1;}; //uniform cost search, add the previous value + 1
-        
+        function<double(string, double)> heuristic = [&alg](string state, double prior) {
+            if (alg == "euclidean") {
+                return euclideanDistance(state) + prior; // A* with Euclidean distance heuristic
+            } else {
+                return prior + 1; // Uniform cost search as fallback
+            }
+        };
+
         frontier.push({heuristic(state, 0.0), state});
         bool done = false;
 
@@ -77,67 +82,8 @@ public:
     }
 
 
-    Solver(string alg = "euclidean", string state = "354210896") {
-        unordered_set<string> inFrontier; // stores all nodes that were either explored or are to be explored
-        static auto priorityLow = [](pair<double, string> l, pair<double, string> r){
-            return l.first > r.first;
-        };
-        priority_queue<pair<double, string>, vector<pair<double, string>>, decltype(priorityLow)> frontier(priorityLow); // the top node is {priority, state}. Low priority first
 
-        function<double(string, double)> heuristic = [&alg](string state, double prior) {
-            if (alg == "euclidean") {
-                return euclideanDistance(state) + prior; // A* with Euclidean distance heuristic
-            } else {
-                return prior + 1; // Uniform cost search as fallback
-            }
-        };
-
-        frontier.push({heuristic(state, 0.0), state});
-        bool done = false;
-
-        while(!done && frontier.size()) {
-            double dist = frontier.top().first;
-            string state = frontier.top().second;
-            frontier.pop();
-
-            if(inFrontier.count(state)) continue; // we have opened this node already
-            inFrontier.insert(state);
-            if(state == "123456780"){
-                done = true;
-                break;
-            }
-
-            Board puzzle(state);
-
-            string l = puzzle.moveLeft();
-            string r = puzzle.moveRight();
-            string u = puzzle.moveUp();
-            string d = puzzle.moveDown();
-
-            if(!inFrontier.count(l)){
-                frontier.push({ heuristic(l, dist), l });
-                inFrontier.insert(l);
-            }
-
-            if(!inFrontier.count(r)){
-                frontier.push({ heuristic(r, dist), r });
-                inFrontier.insert(r);
-            }
-            if(!inFrontier.count(u)){
-                frontier.push({ heuristic(u, dist), u });
-                inFrontier.insert(u);
-            }
-            if(!inFrontier.count(d)){
-                frontier.push({ heuristic(d, dist), d });
-                inFrontier.insert(d);
-            }
-        }
-
-        if(done) cout << "solved" << endl;
-        else cout << "unsolved" << endl;
-    }
-
-    double euclideanDistance(const string& state, const string& goal="123456780") {
+    static double euclideanDistance(const string& state, const string& goal="123456780") {
         double sum = 0.0;
         int x1, y1, x2, y2;
         for(char tile = '1'; tile <= '8'; ++tile) {
