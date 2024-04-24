@@ -13,7 +13,7 @@ public:
     unordered_map<string, string> cameFrom; //key is the node, value is the prior node in the solution path
 
     Solver(string alg = "uniform", string state = "354210896"){
-
+        unordered_map<string, double> gScore; // stores the distance from the start to this node, EXCEPT 0 means infinity
         unordered_set<string> inFrontier; // stores all nodes that were either explored or are to be explored
         static auto priorityLow = [](pair<double, string> l, pair<double, string> r){
             return l.first > r.first;
@@ -31,12 +31,12 @@ public:
 
         frontier.push({heuristic(state, 0.0), state});
         bool done = false;
-
+        gScore[state] = 1;
 
 
         while(!done && frontier.size()){
-            double dist = frontier.top().first;
             string state = frontier.top().second;
+            double dist = gScore[state];
             frontier.pop();
             //if(inFrontier.count(state)) continue; // we have opened this node already
             inFrontier.insert(state);
@@ -56,22 +56,30 @@ public:
                 frontier.push({ heuristic(l, dist), l   });
                 inFrontier.insert(l);
                 cameFrom[l] = state;
+                if(gScore[l])   gScore[l] = min(gScore[l], dist + 1);
+                else            gScore[l] = dist+1;
             }
 
             if(!inFrontier.count(r)){
                 frontier.push({ heuristic(r, dist), r   });
                 inFrontier.insert(r);
                 cameFrom[r] = state;
+                if(gScore[r])   gScore[r] = min(gScore[r], dist + 1);
+                else            gScore[r] = dist+1;
             }
             if(!inFrontier.count(u)){
                 frontier.push({ heuristic(u, dist), u  });
                 inFrontier.insert(u);
                 cameFrom[u] = state;
+                if(gScore[u])   gScore[u] = min(gScore[u], dist + 1);
+                else            gScore[u] = dist+1;
             }
             if(!inFrontier.count(d)){
                 frontier.push({ heuristic(d, dist), d   });
                 inFrontier.insert(d);
                 cameFrom[d] = state;
+                if(gScore[d])   gScore[d] = min(gScore[d], dist + 1);
+                else            gScore[d] = dist+1;
             }
 
         }
