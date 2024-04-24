@@ -13,8 +13,10 @@ public:
     unordered_map<string, string> cameFrom; //key is the node, value is the prior node in the solution path
 
     Solver(string alg = "uniform", string state = "354210896"){
+        unordered_set<string> inFrontier;
+        unordered_map<string, int> distStart; // how far we are from the start EXCEPT 0 means inf
+        distStart[state] = 1;
 
-        unordered_set<string> inFrontier; // stores all nodes that were either explored or are to be explored
         static auto priorityLow = [](pair<double, string> l, pair<double, string> r){
             return l.first > r.first;
         };
@@ -35,11 +37,10 @@ public:
 
 
         while(!done && frontier.size()){
-            double dist = frontier.top().first;
             string state = frontier.top().second;
+            double dist = distStart[state];
             frontier.pop();
-            //if(inFrontier.count(state)) continue; // we have opened this node already
-            inFrontier.insert(state);
+            //inFrontier.insert(state);
             if(state == "123456780"){
                 done = true;
                 break;
@@ -56,22 +57,30 @@ public:
                 frontier.push({ heuristic(l, dist), l   });
                 inFrontier.insert(l);
                 cameFrom[l] = state;
+                if(distStart[l] == 0 || distStart[l] > dist + 1)
+                    distStart[l] = dist+1;
             }
 
             if(!inFrontier.count(r)){
                 frontier.push({ heuristic(r, dist), r   });
                 inFrontier.insert(r);
                 cameFrom[r] = state;
+                if(distStart[r] == 0 || distStart[r] > dist + 1)
+                    distStart[r] = dist+1;
             }
             if(!inFrontier.count(u)){
                 frontier.push({ heuristic(u, dist), u  });
                 inFrontier.insert(u);
                 cameFrom[u] = state;
+                if(distStart[u] == 0 || distStart[u] > dist + 1)
+                    distStart[u] = dist+1;
             }
             if(!inFrontier.count(d)){
                 frontier.push({ heuristic(d, dist), d   });
                 inFrontier.insert(d);
                 cameFrom[d] = state;
+                if(distStart[d] == 0 || distStart[d] > dist + 1)
+                    distStart[d] = dist+1;
             }
 
         }
