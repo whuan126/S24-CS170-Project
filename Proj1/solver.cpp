@@ -7,13 +7,14 @@
 #include<stack>
 #include<unordered_set>
 #include<cmath>
+#include<iostream>
 using namespace std;
 class Solver{
 public:
     unordered_map<string, string> cameFrom; //key is the node, value is the prior node in the solution path
+    unordered_map<string, double> gScore; // stores the distance from the start to this node, EXCEPT 0 means infinity
 
     Solver(string alg = "uniform", string state = "354210896"){
-        unordered_map<string, double> gScore; // stores the distance from the start to this node, EXCEPT 0 means infinity
         unordered_set<string> inFrontier; // stores all nodes that were either explored or are to be explored
         static auto priorityLow = [](pair<double, string> l, pair<double, string> r){
             return l.first > r.first;
@@ -35,10 +36,13 @@ public:
 
 
         while(!done && frontier.size()){
+            cout << "PQ has " << frontier.size() << " nodes in it" << endl;
             string state = frontier.top().second;
             double dist = gScore[state];
             frontier.pop();
             //if(inFrontier.count(state)) continue; // we have opened this node already
+            cout << "At state " << state << ", we are " << dist << " moves from the start, " << " with a predicted distance " << heuristic(state, dist) << " from start to end" << endl;
+
             inFrontier.insert(state);
             if(state == "123456780"){
                 done = true;
@@ -58,6 +62,7 @@ public:
                 cameFrom[l] = state;
                 if(gScore[l])   gScore[l] = min(gScore[l], dist + 1);
                 else            gScore[l] = dist+1;
+                cout << "\tattempting a move  to " << l << endl;
             }
 
             if(!inFrontier.count(r)){
@@ -66,6 +71,7 @@ public:
                 cameFrom[r] = state;
                 if(gScore[r])   gScore[r] = min(gScore[r], dist + 1);
                 else            gScore[r] = dist+1;
+                cout << "\tattempting a move  to " << r << endl;
             }
             if(!inFrontier.count(u)){
                 frontier.push({ heuristic(u, dist), u  });
@@ -73,6 +79,7 @@ public:
                 cameFrom[u] = state;
                 if(gScore[u])   gScore[u] = min(gScore[u], dist + 1);
                 else            gScore[u] = dist+1;
+                cout << "\tattempting a move  to " << u << endl;
             }
             if(!inFrontier.count(d)){
                 frontier.push({ heuristic(d, dist), d   });
@@ -80,6 +87,7 @@ public:
                 cameFrom[d] = state;
                 if(gScore[d])   gScore[d] = min(gScore[d], dist + 1);
                 else            gScore[d] = dist+1;
+                cout << "\tattempting a move  to " << d << endl;
             }
 
         }
@@ -94,7 +102,7 @@ public:
     static double euclideanDistance(const string& state, const string& goal="123456780") {
         double sum = 0.0;
         int x1, y1, x2, y2;
-        for(char tile = '1'; tile <= '8'; ++tile) {
+        for(char tile = '0'; tile <= '8'; ++tile) {
             int index1 = state.find(tile);
             int index2 = goal.find(tile);
             
@@ -103,7 +111,7 @@ public:
             x2 = index2 % 3; y2 = index2 / 3;
 
             // Calculate Euclidean distance for this tile
-            sum += sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+            sum += sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1) * 1.0);
         }
         return sum;
     }
