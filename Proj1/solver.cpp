@@ -24,6 +24,8 @@ public:
         function<double(string, double)> heuristic = [&alg](string state, double prior) {
             if (alg == "euclidean") {
                 return euclideanDistance(state) + prior; // A* with Euclidean distance heuristic
+            } else if (alg == "misplaced") {
+                return misplacedTile(state) + prior; // A* with misplaced tile heuristic
             } else {
                 return prior + 1; // Uniform cost search as fallback
             }
@@ -89,8 +91,6 @@ public:
         else cout << "unsolved" << endl;
     }
 
-
-
     static double euclideanDistance(const string& state, const string& goal="123456780") {
         double sum = 0.0;
         int x1, y1, x2, y2;
@@ -108,6 +108,15 @@ public:
         return sum;
     }
 
+    static double misplacedTile(const string& state, const string& goal = "123456780") {
+        int misplaced = 0;
+        for (int i = 0; i < state.length(); i++) {
+            if (state[i] != '0' && state[i] != goal[i]) {
+                misplaced++;
+            }
+        }
+        return misplaced;
+    }
 
     void printStack(){
         cout << "-------------SOLUTION----------" << endl;
