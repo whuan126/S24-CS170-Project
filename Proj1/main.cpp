@@ -1,6 +1,7 @@
 // Compile using g++ main.cpp, run using ./a.out
 #include"Board.cpp"
 #include"solver.cpp"
+
 int main(int argc, char** argv){
     Board start("102463758");
     cout << start;
