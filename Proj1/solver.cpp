@@ -15,6 +15,7 @@ public:
     unordered_map<string, double> gScore; // stores the distance from the start to this node, EXCEPT 0 means infinity
 
     Solver(string alg = "uniform", string state = "354210896"){
+        int nVisited, maxQ = 0;
         unordered_set<string> inFrontier; // stores all nodes that were either explored or are to be explored
         static auto priorityLow = [](pair<double, string> l, pair<double, string> r){
             return l.first > r.first;
@@ -38,6 +39,7 @@ public:
 
 
         while(!done && frontier.size()){
+            ++nVisited;
             cout << "PQ has " << frontier.size() << " nodes in it" << endl;
             string state = frontier.top().second;
             double dist = gScore[state];
@@ -50,6 +52,7 @@ public:
                 done = true;
                 break;
             }
+            maxQueue = max(maxQueue, queue.size())
 
             Board puzzle(state);
 
@@ -93,6 +96,8 @@ public:
             }
 
         }
+        cout << "Number of nodes visited: " << nVisited << endl; 
+        cout << "Max queue: " << maxQ << endl;
 
 
         if(done) cout << "solved" << endl ;
