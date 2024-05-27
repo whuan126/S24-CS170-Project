@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <limits>
+#include <chrono>
 
 // Function to load provided datasets.
 std::vector<Point> LoadDataset(const std::string& filename);
@@ -26,11 +27,19 @@ int main() {
     LOOV validator;
 
     std::vector<int> smallFeatureSubset = {3, 5, 7}; // Hard coding for features {3, 5, 7}
+    auto start = std::chrono::high_resolution_clock::now();
     double smallAccuracy = validator.Validate(classifier, smallDataset, smallFeatureSubset);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> time_small = end - start;
+    std::cout << "Time taken for small dataset: " << time_small.count() << " seconds" << std::endl;
     std::cout << "Small Dataset Accuracy: " << smallAccuracy << std::endl;
 
     std::vector<int> largeFeatureSubset = {1, 15, 27}; // Hard coding for features {1, 15, 27}
+    start = std::chrono::high_resolution_clock::now();
     double largeAccuracy = validator.Validate(classifier, largeDataset, largeFeatureSubset);
+    end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> time_large = end - start;
+    std::cout << "Time taken for large dataset: " << time_large.count() << " seconds" << std::endl;
     std::cout << "Large Dataset Accuracy: " << largeAccuracy << std::endl;
 
     return 0;
