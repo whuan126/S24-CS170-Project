@@ -1,9 +1,12 @@
 #ifndef LOOV_H
 #define LOOV_H
 
-#include "point.h"
+#include "Point.h"
 #include "NNC.h"
 #include <vector>
+
+// Stub evaluation function declaration
+float stubEvaluation(const std::vector<int>& features);
 
 class LOOV {
 public:
