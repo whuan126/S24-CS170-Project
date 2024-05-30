@@ -1,4 +1,10 @@
 #include "LOOV.h"
+#include <cstdlib>
+
+// Stub evaluation function definition
+float stubEvaluation(const std::vector<int>& features) {
+    return static_cast<float>(rand()) / RAND_MAX * 100;
+}
 
 double LOOV::Validate(NNC& classifier, const std::vector<Point>& data, const std::vector<int>& featureSubset) {
     int correctCount = 0;
@@ -8,8 +14,8 @@ double LOOV::Validate(NNC& classifier, const std::vector<Point>& data, const std
         Point testInstance = data[i];           
         trainingSet.erase(trainingSet.begin() + i); // Remove test instance after
 
-        // // Extract features for training set
-        for (auto&point: trainingSet) {
+        // Extract features for training set
+        for (auto& point : trainingSet) {
             point.features = ExtractFeatures(point.features, featureSubset);
         }
 
