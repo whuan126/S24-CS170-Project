@@ -1,4 +1,4 @@
-#include "Point.h"
+#include "point.h"
 #include "NNC.h"
 #include "LOOV.h"
 #include <iostream>

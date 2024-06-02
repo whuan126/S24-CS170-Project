@@ -12,21 +12,21 @@ all: $(TARGET)
 
 # Link object files to create the executable
 $(TARGET): $(OBJ_FILES)
-    $(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
 # Compile source files into object files
 main.o: main.cpp
-    $(CXX) $(CXXFLAGS) -o $@ -c $<
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
-Point.o: Point.cpp
-    $(CXX) $(CXXFLAGS) -o $@ -c $<
+Point.o: point.cpp
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 NNC.o: NNC.cpp
-    $(CXX) $(CXXFLAGS) -o $@ -c $<
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 LOOV.o: LOOV.cpp
-    $(CXX) $(CXXFLAGS) -o $@ -c $<
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 # Clean up build files
 clean:
-    rm -f $(OBJ_FILES) $(TARGET)
+	rm -f $(OBJ_FILES) $(TARGET)

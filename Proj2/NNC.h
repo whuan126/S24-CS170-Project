@@ -1,7 +1,7 @@
 #ifndef NEAREST_NEIGHBOR_CLASSIFIER_H
 #define NEAREST_NEIGHBOR_CLASSIFIER_H
 
-#include "Point.h"
+#include "point.h"
 #include <vector>
 
 class NNC {

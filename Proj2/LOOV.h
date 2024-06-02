@@ -1,7 +1,7 @@
 #ifndef LOOV_H
 #define LOOV_H
 
-#include "Point.h"
+#include "point.h"
 #include "NNC.h"
 #include <vector>
 
