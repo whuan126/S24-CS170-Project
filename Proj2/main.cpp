@@ -45,7 +45,7 @@ std::vector<int> backwardElimination(const std::vector<Point>& dataset, int tota
 
     float bestAccuracy = evaluateFeatures(dataset, currentFeatures); // Initial evaluation with all features
 
-    std::cout << "Using all features " << to_string(currentFeatures) << ", initial accuracy is " << bestAccuracy << "%\n";
+    std::cout << "Using all features " << to_string(currentFeatures) << ", initial accuracy is " << (bestAccuracy*100) << "%\n";
 
     while (currentFeatures.size() > 1) {
         int bestFeatureToRemove = -1;
@@ -57,7 +57,7 @@ std::vector<int> backwardElimination(const std::vector<Point>& dataset, int tota
 
             float tempAccuracy = evaluateFeatures(dataset, tempFeatures);
 
-            std::cout << "Using feature(s) " << to_string(tempFeatures) << " accuracy is " << tempAccuracy << "%\n";
+            std::cout << "Using feature(s) " << to_string(tempFeatures) << " accuracy is " << (100*tempAccuracy) << "%\n";
 
             if (tempAccuracy > bestTempAccuracy) {
                 bestTempAccuracy = tempAccuracy;
@@ -68,13 +68,13 @@ std::vector<int> backwardElimination(const std::vector<Point>& dataset, int tota
         if (bestFeatureToRemove != -1 && bestTempAccuracy >= bestAccuracy) {
             currentFeatures.erase(currentFeatures.begin() + bestFeatureToRemove);
             bestAccuracy = bestTempAccuracy;
-            std::cout << "Feature set " << to_string(currentFeatures) << " was best, accuracy is " << bestAccuracy << "%\n";
+            std::cout << "Feature set " << to_string(currentFeatures) << " was best, accuracy is " << (100*bestAccuracy) << "%\n";
         } else {
             break;
         }
     }
 
-    std::cout << "Finished search!! The best feature subset is " << to_string(currentFeatures) << ", which has an accuracy of " << bestAccuracy << "%\n";
+    std::cout << "Finished search!! The best feature subset is " << to_string(currentFeatures) << ", which has an accuracy of " << (bestAccuracy*100) << "%\n";
     return currentFeatures;
 }
 
@@ -94,7 +94,7 @@ std::vector<int> forwardSelection(const std::vector<Point>& dataset, int totalFe
                 tempFeatures.push_back(feature);
 
                 float tempAccuracy = evaluateFeatures(dataset, tempFeatures);
-                std::cout << "Using feature(s) " << to_string(tempFeatures) << " accuracy is " << tempAccuracy << "%" << std::endl;
+                std::cout << "Using feature(s) " << to_string(tempFeatures) << " accuracy is " << (tempAccuracy*100) << "%" << std::endl;
 
                 if (tempAccuracy > bestTempAccuracy) {
                     bestTempAccuracy = tempAccuracy;
@@ -106,13 +106,13 @@ std::vector<int> forwardSelection(const std::vector<Point>& dataset, int totalFe
         if (bestFeature != -1) {
             currentFeatures.push_back(bestFeature);
             bestAccuracy = bestTempAccuracy;
-            std::cout << "Feature set " << to_string(currentFeatures) << " was best, accuracy is " << bestAccuracy << "%" << std::endl;
+            std::cout << "Feature set " << to_string(currentFeatures) << " was best, accuracy is " << (bestAccuracy*100) << "%" << std::endl;
         } else {
             break;
         }
     }
 
-    std::cout << "Finished search!! The best feature subset is " << to_string(currentFeatures) << ", which has an accuracy of " << bestAccuracy << "%" << std::endl;
+    std::cout << "Finished search!! The best feature subset is " << to_string(currentFeatures) << ", which has an accuracy of " << (bestAccuracy*100) << "%" << std::endl;
     return currentFeatures;
 }
 
