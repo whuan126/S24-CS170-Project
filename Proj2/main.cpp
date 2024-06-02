@@ -27,6 +27,7 @@ std::string to_string(const std::vector<int>& vec) {
     return result;
 }
 
+
 // Evaluation function using Leave-One-Out Validation
 double evaluateFeatures(const std::vector<Point>& dataset, const std::vector<int>& featureSubset) {
     NNC classifier;
@@ -36,12 +37,14 @@ double evaluateFeatures(const std::vector<Point>& dataset, const std::vector<int
 
 // Backward elimination function
 std::vector<int> backwardElimination(const std::vector<Point>& dataset, int totalFeatures) {
+
     std::vector<int> currentFeatures;
     for (int i = 1; i <= totalFeatures; ++i) {
         currentFeatures.push_back(i);
     }
 
     float bestAccuracy = evaluateFeatures(dataset, currentFeatures); // Initial evaluation with all features
+
     std::cout << "Using all features " << to_string(currentFeatures) << ", initial accuracy is " << bestAccuracy << "%\n";
 
     while (currentFeatures.size() > 1) {
@@ -53,6 +56,7 @@ std::vector<int> backwardElimination(const std::vector<Point>& dataset, int tota
             tempFeatures.erase(tempFeatures.begin() + i);
 
             float tempAccuracy = evaluateFeatures(dataset, tempFeatures);
+
             std::cout << "Using feature(s) " << to_string(tempFeatures) << " accuracy is " << tempAccuracy << "%\n";
 
             if (tempAccuracy > bestTempAccuracy) {
@@ -74,7 +78,6 @@ std::vector<int> backwardElimination(const std::vector<Point>& dataset, int tota
     return currentFeatures;
 }
 
-// Forward selection function
 std::vector<int> forwardSelection(const std::vector<Point>& dataset, int totalFeatures) {
     std::vector<int> currentFeatures;
     float bestAccuracy = 0.0;
