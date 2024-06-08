@@ -145,6 +145,7 @@ int main() {
     std::cout << "Large Dataset Accuracy: " << largeAccuracy << std::endl;
 
     int totalFeatures;
+    
     std::cout << "Please enter total number of features: ";
     std::cin >> totalFeatures;
 
@@ -155,8 +156,10 @@ int main() {
     int choice;
     std::cin >> choice;
 
+	largeDataset = LoadDataset("datasets/CS170_Spring_2024_Large_data__36.txt");
+
     if (choice == 1) {
-        forwardSelection(smallDataset, totalFeatures);
+        forwardSelection(largeDataset, totalFeatures);
     } else if (choice == 2) {
         backwardElimination(largeDataset, totalFeatures);
     } else if (choice == 3) {
