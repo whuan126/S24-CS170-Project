@@ -149,19 +149,31 @@ int main() {
     std::cout << "Please enter total number of features: ";
     std::cin >> totalFeatures;
 
+	int choice = 0;
+    std::cout << "Enter 0 for small dataset, 1 for large: ";
+    std::cin >> choice;
+
+	largeDataset = LoadDataset("datasets/CS170_Spring_2024_Large_data__36.txt");
+	smallDataset = LoadDataset("datasets/CS170_Spring_2024_Small_data__36.txt");
+    std::vector<Point> dataset = smallDataset;
+	if(choice){
+		dataset = largeDataset;	
+	}
+
+
     std::cout << "Type the number of the algorithm you want to run:\n";
     std::cout << "1. Forward Selection\n";
     std::cout << "2. Backward Elimination\n";
     std::cout << "3. Exit\n";
-    int choice;
+    choice = 0;
     std::cin >> choice;
 
-	largeDataset = LoadDataset("datasets/CS170_Spring_2024_Large_data__36.txt");
+
 
     if (choice == 1) {
-        forwardSelection(largeDataset, totalFeatures);
+        forwardSelection(dataset, totalFeatures);
     } else if (choice == 2) {
-        backwardElimination(largeDataset, totalFeatures);
+        backwardElimination(dataset, totalFeatures);
     } else if (choice == 3) {
         // Exit the program
     } else {
