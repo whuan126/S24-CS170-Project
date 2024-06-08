@@ -49,7 +49,7 @@ std::vector<int> backwardElimination(const std::vector<Point>& dataset, int tota
 
     while (currentFeatures.size() > 1) {
         int bestFeatureToRemove = -1;
-        float bestTempAccuracy = 0.0;
+        float bestTempAccuracy = bestAccuracy;
 
         for (size_t i = 0; i < currentFeatures.size(); ++i) {
             std::vector<int> tempFeatures = currentFeatures;
@@ -86,7 +86,7 @@ std::vector<int> forwardSelection(const std::vector<Point>& dataset, int totalFe
 
     for (int i = 0; i < totalFeatures; ++i) {
         int bestFeature = -1;
-        float bestTempAccuracy = 0.0;
+        float bestTempAccuracy = bestAccuracy;
 
         for (int feature = 1; feature <= totalFeatures; ++feature) {
             if (std::find(currentFeatures.begin(), currentFeatures.end(), feature) == currentFeatures.end()) {
