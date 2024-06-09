@@ -160,6 +160,8 @@ int main() {
 		dataset = largeDataset;	
 	}
 
+	normalize(dataset);
+
 
     std::cout << "Type the number of the algorithm you want to run:\n";
     std::cout << "1. Forward Selection\n";
